@@ -1,0 +1,64 @@
+init
+pll_write 2=0x53
+pll_write 3=0x00
+pll_write 4=0x20
+pll_write 7=0x00
+pll_write 15=0x00
+pll_write 16=0x0F
+pll_write 17=0x0F
+pll_write 18=0x8C
+pll_write 19=0x8C
+pll_write 20=0x8C
+pll_write 21=0x8C
+pll_write 22=0x8C
+pll_write 23=0x8C
+pll_write 26=0x00
+pll_write 27=0x1B
+pll_write 28=0x00
+pll_write 29=0x0E
+pll_write 30=0x97
+pll_write 31=0x00
+pll_write 32=0x00
+pll_write 33=0x13
+pll_write 42=0x00
+pll_write 43=0x01
+pll_write 44=0x01
+pll_write 45=0x16
+pll_write 46=0x00
+pll_write 47=0x00
+pll_write 48=0x00
+pll_write 49=0x00
+pll_write 50=0x00
+pll_write 51=0x02
+pll_write 52=0x00
+pll_write 53=0xD8
+pll_write 54=0xC0
+pll_write 55=0x00
+pll_write 56=0x00
+pll_write 57=0x00
+pll_write 90=0x00
+pll_write 91=0x00
+pll_write 149=0x00
+pll_write 150=0x00
+pll_write 151=0x00
+pll_write 152=0x00
+pll_write 153=0x00
+pll_write 154=0x00
+pll_write 155=0x00
+pll_write 162=0x00
+pll_write 163=0x00
+pll_write 164=0x00
+pll_write 165=0x00
+pll_write 166=0x00
+pll_write 183=0x92
+interrupts -e
+
+# check if J12 Jumper is in CKI (PDM Clock from Ext.)
+ndp10x_config --input-clock-rate 1600000 -i pdm1 --pdm-clock-rate 2048000 --pdm-out-shift 7 --pdm-in-shift 8 --pdm-clock-ndp off
+
+pkgload ../pkgs/firmware/fw.synpkg
+pkgload ../pkgs/neural_network/alexa.synpkg
+
+!echo "watching for alexa"
+watch -t -1 -c alexa --leds
+led_control --off
